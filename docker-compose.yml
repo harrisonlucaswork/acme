@@ -1,0 +1,13 @@
+services:
+  acme-app:
+    image: acme-app:php-${PHP_VER}-${REL_VER}
+    build:
+      context: ./app
+      dockerfile: app-php-${PHP_VER}.dockerfile
+    volumes:
+      - ./acme:/acme
+    networks:
+      - acme-net
+networks:
+  acme-net:
+    driver: bridge
