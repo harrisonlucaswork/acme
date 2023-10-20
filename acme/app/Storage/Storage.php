@@ -19,4 +19,16 @@ class Storage implements StorageInterface
     {
         return 'USD';
     }
+
+    public function getShippingRules() : array
+    {
+        return [
+        ];
+    }
+
+    public function getDiscountRules(): array
+    {
+        return [
+        ];
+    }
 }
