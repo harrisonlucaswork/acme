@@ -110,4 +110,15 @@ class Cart
     {
         return count($this->lineItems);
     }
+
+    public function getLineItemCounts() : array
+    {
+        return array_reduce($this->lineItems, function ($lineItemCounts, $lineItem) {
+            $code = $lineItem->getCode();
+            $lineItemCounts[$code] = $lineItemCounts[$code] ?? 0;
+            $lineItemCounts[$code]++;
+
+            return $lineItemCounts;
+        }, []);
+    }
 }

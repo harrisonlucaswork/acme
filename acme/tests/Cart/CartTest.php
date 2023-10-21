@@ -144,6 +144,26 @@ class CartTest extends TestCase
         $this->assertSame('4.99', $cart->getTotal());
     }
 
+    public function testGetLineItemCounts()
+    {
+        $storage = Mockery::mock(StorageInterface::class);
+        $storage->shouldReceive('getProduct')
+            ->with('mock')
+            ->andReturn(new MockLineItem('mock', '1.00'));
+        $storage->shouldReceive('getProduct')
+            ->with('mock2')
+            ->andReturn(new MockLineItem('mock2', '1.00'));
+        $storage->shouldReceive('getCurrencyCode')
+            ->andReturn('USD');
+
+        $cart = new Cart($storage);
+        $cart->add('mock');
+        $cart->add('mock');
+        $cart->add('mock2');
+
+        $this->assertSame(['mock' => 2, 'mock2' => 1], $cart->getLineItemCounts());
+    }
+
     private function getMockShippingRules() : array
     {
         $shippingRule = Mockery::mock(RuleInterface::class);
