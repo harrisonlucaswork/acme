@@ -29,8 +29,8 @@ class ShippingRuleTest extends TestCase
 	{
 		$rule = new ShippingRule(['price' => '1.00', 'conditions' => [
 				ShippingRule::SUBTOTAL_CONDITION => [
-						ShippingRule::GREATER_THAN => '10.98',
-						ShippingRule::LESS_THAN => '11.00',
+						ShippingRule::GREATER_THAN => '9.98',
+						ShippingRule::LESS_THAN => '10.00',
 				],
 				ShippingRule::ITEM_COUNT_CONDITION => [
 						ShippingRule::GREATER_THAN => 1,
@@ -57,8 +57,32 @@ class ShippingRuleTest extends TestCase
 		$cart = $this->getMockCart();
 
 		$this->assertTrue($rule->isSatisfiedBy($cart));
-		$this->assertFalse($rule2->isSatisfiedBy($cart));
+		$this->assertTrue($rule2->isSatisfiedBy($cart));
 		$this->assertFalse($rule3->isSatisfiedBy($cart));
+	}
+
+	public function testWithExampleRedBasketNumbers()
+	{
+		$cart = Mockery::mock(Cart::class);
+		$cart->shouldReceive('getSubtotal')
+			->andReturn('65.90');
+		$cart->shouldReceive('getDiscountTotal')
+			->andReturn('16.48');
+
+		$rule = new ShippingRule(['price' => '4.95', 'conditions' => [
+				ShippingRule::SUBTOTAL_CONDITION => [
+						ShippingRule::LESS_THAN => '50.00',
+				]
+		]]);
+		$rule2 = new ShippingRule(['price' => '2.95', 'conditions' => [
+				ShippingRule::SUBTOTAL_CONDITION => [
+						ShippingRule::GREATER_THAN => '50.00',
+						ShippingRule::LESS_THAN => '90.00',
+				]
+		]]);
+
+		$this->assertTrue($rule->isSatisfiedBy($cart));
+		$this->assertFalse($rule2->isSatisfiedBy($cart));
 	}
 
 	private function getMockCart() : Cart
@@ -68,6 +92,8 @@ class ShippingRuleTest extends TestCase
 			->andReturn('10.99');
 		$cart->shouldReceive('getCount')
 			->andReturn(2);
+		$cart->shouldReceive('getDiscountTotal')
+			->andReturn('1.00');
 
 		return $cart;
 	}

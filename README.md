@@ -33,27 +33,15 @@ Acme Widget Test
 1. Brick/Money was used because I was worried about the uncertanties of floating point math as well as it adding the ability to support different currencies in the future. One example I found while testing was a rounding error with the red widget discount. The exception here is great in that it lets me know I have to decide how to handle rounding 32.95 / 2 = 16.475. I chose to round up here based on meeting the example expected outputs for this basket.
     > 1) IntegrationTest::testRedAndRedWidget Brick\Math\Exception\RoundingNecessaryException: Rounding is necessary to represent the result of the operation at this scale.
 
-2. **Bug in example** I believe the basket example with R01 and R01 and a total of 54.37 should be 52.37
+2. The docker-compose isn't necessary here. I left it because I started off by thinking I would add some type of storage ie Redis/MySQL but ended up not getting to it. I also didn't want to tweak the devcontainer json.
 
-    ```text
-    Items: R01, R01
-    Subtotal: 65.90
-    Shipping: 2.95
-    Discount: 16.48
-    Total: 52.37
-    ```
-
-3. The docker-compose isn't necessary here. I left it because I started off by thinking I would add some type of storage ie Redis/MySQL but ended up not getting to it. I also didn't want to tweak the devcontainer json.
-
-4. I am not that happy with how the Rule logic turned out, specifically in the 'isSatisfiedBy' methods. I believe the Storage/Discount rules could likely be combined and push some of the condition logic into their own classes so we can add many more conditions without the switch statement etc. Additionally, the cart's getDiscountTotal and getShippingTotal are basically the same and can be combined.
-
-5. I hope we talk through my thought process on things and where I would have liked to go next.
+3. I am not that happy with how the Rule logic turned out, specifically in the 'isSatisfiedBy' methods. I believe the Storage/Discount rules could likely be combined and push some of the condition logic into their own classes so we can add many more conditions without the switch statement etc. Additionally, the cart's getDiscountTotal and getShippingTotal are basically the same and can be combined.
 
 ## Todo
 
 1. Apply the Repository pattern for Products, Discounts, and Shipping rules so they can be moved to persistant storage instead of just an array without breaking things.
 
-2. Make the conditions that satisfy a rule easier to add more or change. Probably its own class for each rule type instead of constants in a switch. Could maybe factory them and have the rule simply see if all conditions are met to determine isSatisfiedBy.
+2. Make the conditions that satisfy a rule easier to add more or change. Probably its own class for each rule type instead of constants in a switch (ugly). Could maybe factory them and have the rule simply see if all conditions are met to determine isSatisfiedBy.
 
 3. PHPStan I did not get to it.
 

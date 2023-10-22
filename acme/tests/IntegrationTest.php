@@ -53,9 +53,9 @@ class IntegrationTest extends TestCase
 		$cart->add('R01');
 		$cart->add('R01');
 
-		$this->assertSame('2.95', $cart->getShippingTotal());
+		$this->assertSame('4.95', $cart->getShippingTotal());
 		$this->assertSame('16.48', $cart->getDiscountTotal());
-		$this->assertSame('52.37', $cart->getTotal());
+		$this->assertSame('54.37', $cart->getTotal());
 	}
 
 	public function testRedAndGreenWidget()
