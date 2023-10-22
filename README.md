@@ -43,7 +43,7 @@ Acme Widget Test
 
 2. Make the conditions that satisfy a rule easier to add more or change. Probably its own class for each rule type instead of constants in a switch (ugly). Could maybe factory them and have the rule simply see if all conditions are met to determine isSatisfiedBy.
 
-3. PHPStan I did not get to it.
+3. PHPStan has mostly return type has no value type specified in iterable type errors which I didn't take the time to fix everywhere. However, it did point out a potentially unsafe - operator in ShippingRule so I fixed that but it makes me want to sort out #2 even more.
 
 4. I wanted to try a simple service container implementation and have the backend be automatically injected but did not have time. I saw this article a while ago and have been wanting to try it in a small project. <https://ryangjchandler.co.uk/posts/build-your-own-service-container-in-php-minimal-container>
 

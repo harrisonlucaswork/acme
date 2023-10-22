@@ -2,6 +2,10 @@
 
 namespace App\Cart;
 
+use App\Storage\Storage;
+use App\Storage\StorageInterface;
+use Brick\Money\Money;
+
 class ShippingRule implements RuleInterface
 {
 	public const SUBTOTAL_CONDITION = 'subtotal';
@@ -12,7 +16,7 @@ class ShippingRule implements RuleInterface
 	private string $price;
 	private array $conditions = [];
 
-	public function __construct(array $rule)
+	public function __construct(array $rule, private StorageInterface $storage = new Storage())
 	{
 		if (empty($rule['price']) || empty($rule['conditions'])) {
 			throw new \InvalidArgumentException('Invalid rule');
@@ -28,7 +32,10 @@ class ShippingRule implements RuleInterface
 
 		foreach ($this->conditions as $condition => $constraint) {
 			if ($condition === self::SUBTOTAL_CONDITION) {
-				$value = $cart->getSubtotal() - $cart->getDiscountTotal();
+				$currencyCode = $this->storage->getCurrencyCode();
+				$subtotal = Money::of($cart->getSubtotal(), $currencyCode);
+				$discountTotal = Money::of($cart->getDiscountTotal(), $currencyCode);
+				$value = floatval((string) $subtotal->minus($discountTotal)->getAmount());
 			} else {
 				$value = $cart->getCount();
 			}
@@ -36,10 +43,10 @@ class ShippingRule implements RuleInterface
 			foreach ($constraint as $operator => $operand) {
 				switch ($operator) {
 					case self::GREATER_THAN:
-						$satisfied &= $value > $operand;
+						$satisfied = $satisfied && ($value > $operand);
 						break;
 					case self::LESS_THAN:
-						$satisfied &= $value < $operand;
+						$satisfied = $satisfied && ($value < $operand);
 						break;
 					default:
 						$satisfied = FALSE;

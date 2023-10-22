@@ -10,6 +10,9 @@ class Cart
 {
 	public const ZERO = '0.00';
 
+	/**
+	 * @param array<LineItemInterface> $lineItems
+	 */
 	public function __construct(
 		private StorageInterface $storage = new Storage(),
 		private array $lineItems = [],
@@ -113,6 +116,9 @@ class Cart
 		return count($this->lineItems);
 	}
 
+	/**
+	 * @return array<string, int>
+	 */
 	public function getLineItemCounts() : array
 	{
 		return array_reduce($this->lineItems, function ($lineItemCounts, $lineItem) {

@@ -10,8 +10,8 @@ use PHPUnit\Framework\TestCase;
 
 class IntegrationTest extends TestCase
 {
-	private $validInput;
-	private $storage;
+	private array $validInput;
+	private Storage $storage;
 
 	public function setUp() : void
 	{

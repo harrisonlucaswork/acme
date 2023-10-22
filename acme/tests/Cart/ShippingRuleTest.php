@@ -2,6 +2,7 @@
 
 use App\Cart\Cart;
 use App\Cart\ShippingRule;
+use App\Storage\StorageInterface;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -21,12 +22,13 @@ class ShippingRuleTest extends TestCase
 
 	public function testGetPrice()
 	{
-		$rule = new ShippingRule(['price' => '1.00', 'conditions' => ['foo' => 'bar']]);
+		$rule = new ShippingRule(['price' => '1.00', 'conditions' => ['foo' => 'bar']], $this->getMockStorage());
 		$this->assertSame('1.00', $rule->getPrice());
 	}
 
 	public function testIsSatisfiedBy()
 	{
+		$storage = $this->getMockStorage();
 		$rule = new ShippingRule(['price' => '1.00', 'conditions' => [
 				ShippingRule::SUBTOTAL_CONDITION => [
 						ShippingRule::GREATER_THAN => '9.98',
@@ -36,7 +38,7 @@ class ShippingRuleTest extends TestCase
 						ShippingRule::GREATER_THAN => 1,
 						ShippingRule::LESS_THAN => 3,
 				],
-		]]);
+		]], $storage);
 		$rule2 = new ShippingRule(['price' => '1.00', 'conditions' => [
 				ShippingRule::SUBTOTAL_CONDITION => [
 						ShippingRule::LESS_THAN => '10.00',
@@ -44,7 +46,7 @@ class ShippingRuleTest extends TestCase
 				ShippingRule::ITEM_COUNT_CONDITION => [
 						ShippingRule::LESS_THAN => 5,
 				],
-		]]);
+		]], $storage);
 		$rule3 = new ShippingRule(['price' => '1.00', 'conditions' => [
 				ShippingRule::SUBTOTAL_CONDITION => [
 						ShippingRule::GREATER_THAN => '10.00',
@@ -52,7 +54,7 @@ class ShippingRuleTest extends TestCase
 				ShippingRule::ITEM_COUNT_CONDITION => [
 						ShippingRule::LESS_THAN => 2,
 				],
-		]]);
+		]], $storage);
 
 		$cart = $this->getMockCart();
 
@@ -69,17 +71,18 @@ class ShippingRuleTest extends TestCase
 		$cart->shouldReceive('getDiscountTotal')
 			->andReturn('16.48');
 
+		$storage = $this->getMockStorage();
 		$rule = new ShippingRule(['price' => '4.95', 'conditions' => [
 				ShippingRule::SUBTOTAL_CONDITION => [
 						ShippingRule::LESS_THAN => '50.00',
 				]
-		]]);
+		]], $storage);
 		$rule2 = new ShippingRule(['price' => '2.95', 'conditions' => [
 				ShippingRule::SUBTOTAL_CONDITION => [
 						ShippingRule::GREATER_THAN => '50.00',
 						ShippingRule::LESS_THAN => '90.00',
 				]
-		]]);
+		]], $storage);
 
 		$this->assertTrue($rule->isSatisfiedBy($cart));
 		$this->assertFalse($rule2->isSatisfiedBy($cart));
@@ -96,5 +99,14 @@ class ShippingRuleTest extends TestCase
 			->andReturn('1.00');
 
 		return $cart;
+	}
+
+	private function getMockStorage() : StorageInterface
+	{
+		$storage = Mockery::mock(StorageInterface::class);
+		$storage->shouldReceive('getCurrencyCode')
+			->andReturn('USD');
+
+		return $storage;
 	}
 }

@@ -145,6 +145,15 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+        'phpstan/phpstan' => array(
+            'pretty_version' => '1.10.39',
+            'version' => '1.10.39.0',
+            'reference' => 'd9dedb0413f678b4d03cbc2279a48f91592c97c4',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpstan/phpstan',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'phpunit/php-code-coverage' => array(
             'pretty_version' => '10.1.7',
             'version' => '10.1.7.0',
