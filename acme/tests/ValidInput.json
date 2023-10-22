@@ -1,0 +1,54 @@
+{
+    "Products": [
+        {
+            "code": "R01",
+            "description": "Red Widget",
+            "price": "32.95"
+        },
+        {
+            "code": "G01",
+            "description": "Green Widget",
+            "price": "24.95"
+        },
+        {
+            "code": "B01",
+            "description": "Blue Widget",
+            "price": "7.95"
+        }
+    ],
+    "Shipping": [
+        {
+            "price": "4.95",
+            "conditions": {
+                "subtotal": {
+                    "less_than": "50"
+                }
+            }
+        },
+        {
+            "price": "2.95",
+            "conditions": {
+                "subtotal": {
+                    "greater_than": "49",
+                    "less_than": "90"
+                }
+            }
+        },
+        {
+            "price": "0.00",
+            "conditions": {
+                "subtotal": {
+                    "greater_than": "90"
+                }
+            }
+        }
+    ],
+    "Discounts": [
+        {
+            "price": "0.5",
+            "conditions": {
+                "buy_one_get_second_discounted": "R01"
+            }
+        }
+    ]
+}

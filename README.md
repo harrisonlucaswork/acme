@@ -12,3 +12,12 @@ bash app/build.sh
 ```bash
 docker-compose --env-file .env up -d
 ```
+
+## Notes
+
+- Brick/Money was used because I was worried about the uncertanties of floating point math as well as it adding the ability to support different currencies in the future. One example I found while testing was a rounding error with the red widget discount. The exception here is great in that it lets me know I have to decide how to handle rounding 32.95 / 2 = 16.475.
+
+```
+1) IntegrationTest::testRedAndRedWidget
+Brick\Math\Exception\RoundingNecessaryException: Rounding is necessary to represent the result of the operation at this scale.
+```

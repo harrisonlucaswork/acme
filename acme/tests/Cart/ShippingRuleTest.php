@@ -32,10 +32,12 @@ class ShippingRuleTest extends TestCase
     {
         $rule = new ShippingRule(['price' => '1.00', 'conditions' => [
                 ShippingRule::SUBTOTAL_CONDITION => [
-                        ShippingRule::GREATER_THAN => '10.00'
+                        ShippingRule::GREATER_THAN => '10.98',
+                        ShippingRule::LESS_THAN => '11.00'
                 ],
                 ShippingRule::ITEM_COUNT_CONDITION => [
-                        ShippingRule::LESS_THAN => 5
+                        ShippingRule::GREATER_THAN => 1,
+                        ShippingRule::LESS_THAN => 3
                 ]
         ]]);
         $rule2 = new ShippingRule(['price' => '1.00', 'conditions' => [

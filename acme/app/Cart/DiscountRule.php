@@ -5,12 +5,13 @@ namespace App\Cart;
 use App\Storage\StorageInterface;
 use App\Storage\Storage;
 use Brick\Money\Money;
+use Brick\Math\RoundingMode;
 
 
 class DiscountRule implements RuleInterface
 {
-    public const BUY_ONE_GET_SECOND_DISCOUNT = 'buy-one-get-second-discount';
-    public const BUY_TWO_GET_THIRD_DISCOUNT = 'buy-two-get-third-discount';
+    public const BUY_ONE_GET_SECOND_DISCOUNT = 'buy_one_get_second_discounted';
+    public const BUY_TWO_GET_THIRD_DISCOUNT = 'buy_two_get_third_discounted';
 
     private string $price;
     private array $conditions = [];
@@ -53,7 +54,7 @@ class DiscountRule implements RuleInterface
         }
 
         $lineItemPrice = Money::of($lineItem->getPrice(), $this->storage->getCurrencyCode());
-        $discount = $lineItemPrice->multipliedBy($this->price);
+        $discount = $lineItemPrice->multipliedBy($this->price, RoundingMode::UP);
 
         return (string) $discount->getAmount();
     }

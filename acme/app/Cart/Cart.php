@@ -56,7 +56,7 @@ class Cart
         }, []);
 
         if (empty($validShippingRules)) {
-            return '0.00'; // TODO const
+            return '0.00';
         }
 
         return array_reduce($validShippingRules, function ($cheapestShipping, $shippingRule) {
@@ -80,7 +80,7 @@ class Cart
         }, []);
 
         if (empty($validDiscountRules)) {
-            return '0.00'; // TODO const
+            return '0.00';
         }
 
         return array_reduce($validDiscountRules, function ($cheapestDiscount, $discountRule) {

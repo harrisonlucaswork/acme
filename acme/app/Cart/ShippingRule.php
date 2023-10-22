@@ -28,16 +28,22 @@ class ShippingRule implements RuleInterface
 
         foreach ($this->conditions as $condition => $constraint) {
             $value = $condition === self::SUBTOTAL_CONDITION ? $cart->getSubtotal() : $cart->getCount();
-            $operator = array_key_first($constraint);
-            $constraintValue = $constraint[$operator];
 
-            switch ($operator) {
-                case self::GREATER_THAN:
-                    $satisfied &= $value > $constraintValue;
+            foreach ($constraint as $operator => $operand) {
+                switch ($operator) {
+                    case self::GREATER_THAN:
+                        $satisfied &= $value > $operand;
+                        break;
+                    case self::LESS_THAN:
+                        $satisfied &= $value < $operand;
+                        break;
+                    default:
+                        $satisfied = false;
+                }
+
+                if (!$satisfied) {
                     break;
-                case self::LESS_THAN:
-                    $satisfied &= $value < $constraintValue;
-                    break;
+                }
             }
         }
 
