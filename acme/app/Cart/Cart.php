@@ -8,6 +8,8 @@ use Brick\Money\Money;
 
 class Cart
 {
+	public const ZERO = '0.00';
+
 	public function __construct(
 		private StorageInterface $storage = new Storage(),
 		private array $lineItems = [],
@@ -56,7 +58,7 @@ class Cart
 		}, []);
 
 		if (empty($validShippingRules)) {
-			return '0.00';
+			return self::ZERO;
 		}
 
 		return array_reduce($validShippingRules, function ($cheapestShipping, $shippingRule) {
@@ -80,7 +82,7 @@ class Cart
 		}, []);
 
 		if (empty($validDiscountRules)) {
-			return '0.00';
+			return self::ZERO;
 		}
 
 		return array_reduce($validDiscountRules, function ($cheapestDiscount, $discountRule) {

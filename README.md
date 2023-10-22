@@ -46,3 +46,7 @@ Acme Widget Test
 3. PHPStan I did not get to it.
 
 4. I wanted to try a simple service container implementation and have the backend be automatically injected but did not have time. I saw this article a while ago and have been wanting to try it in a small project. <https://ryangjchandler.co.uk/posts/build-your-own-service-container-in-php-minimal-container>
+
+5. Expand upon the runner. Should be able to support multiple types of input ie file/stdin. Possibly different formats or at least break up the json into different parts ie add-products could be separate persistant operation separate from adding things to cart and calculating totals.
+
+6. Nice error handling if data is bad or something goes wrong. This assumes good data for the most part.

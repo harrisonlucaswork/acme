@@ -43,7 +43,7 @@ class IntegrationTest extends TestCase
 		$cart->add('G01');
 
 		$this->assertSame('4.95', $cart->getShippingTotal());
-		$this->assertSame('0.00', $cart->getDiscountTotal());
+		$this->assertSame(Cart::ZERO, $cart->getDiscountTotal());
 		$this->assertSame('37.85', $cart->getTotal());
 	}
 
@@ -65,7 +65,7 @@ class IntegrationTest extends TestCase
 		$cart->add('G01');
 
 		$this->assertSame('2.95', $cart->getShippingTotal());
-		$this->assertSame('0.00', $cart->getDiscountTotal());
+		$this->assertSame(Cart::ZERO, $cart->getDiscountTotal());
 		$this->assertSame('60.85', $cart->getTotal());
 	}
 
@@ -78,7 +78,7 @@ class IntegrationTest extends TestCase
 		$cart->add('R01');
 		$cart->add('R01');
 
-		$this->assertSame('0.00', $cart->getShippingTotal());
+		$this->assertSame(Cart::ZERO, $cart->getShippingTotal());
 		$this->assertSame('16.48', $cart->getDiscountTotal());
 		$this->assertSame('98.27', $cart->getTotal());
 	}
@@ -90,8 +90,23 @@ class IntegrationTest extends TestCase
 		$cart->add('Y01');
 		$cart->add('Y01');
 
-		$this->assertSame('0.00', $cart->getShippingTotal());
+		$this->assertSame(Cart::ZERO, $cart->getShippingTotal());
 		$this->assertSame('99.99', $cart->getDiscountTotal());
 		$this->assertSame('199.98', $cart->getTotal());
+	}
+
+	public function testFreeShipping()
+	{
+		$cart = new Cart($this->storage);
+		$cart->add('R01');
+		$cart->add('R01');
+		$cart->add('R01');
+		$cart->add('Y01');
+		$cart->add('Y01');
+		$cart->add('Y01');
+
+		$this->assertSame(Cart::ZERO, $cart->getShippingTotal());
+		$this->assertSame('99.99', $cart->getDiscountTotal());
+		$this->assertSame('298.83', $cart->getTotal());
 	}
 }

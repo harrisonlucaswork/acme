@@ -49,7 +49,7 @@ class DiscountRule implements RuleInterface
 		$lineItem = $this->storage->getProduct($lineItemCode);
 
 		if (!$lineItem) {
-			return '0.00';
+			return Cart::ZERO;
 		}
 
 		$lineItemPrice = Money::of($lineItem->getPrice(), $this->storage->getCurrencyCode());
