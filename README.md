@@ -39,6 +39,8 @@ Acme Widget Test
 
 ## Todo
 
+0. Rename the 'price' input for discount as its currently actually a percentage relative to the item being discounted. ie 0.5 for G01 will give 50% discount relative to the cost of G01.
+
 1. Apply the Repository pattern for Products, Discounts, and Shipping rules so they can be moved to persistant storage instead of just an array without breaking things.
 
 2. Make the conditions that satisfy a rule easier to add more or change. Probably its own class for each rule type instead of constants in a switch (ugly). Could maybe factory them and have the rule simply see if all conditions are met to determine isSatisfiedBy.
