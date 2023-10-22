@@ -1,0 +1,37 @@
+{
+	"name": "ACME",
+	"dockerComposeFile": "../docker-compose.yml",
+	"context" : "../",
+	"service": "acme-app",
+	"shutdownAction": "none",
+	"workspaceFolder": "/acme",
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.shell.linux": "bash",
+				"dotfiles.repository": "https://github.com/harrisonlucaswork/dotfiles",
+				"dotfiles.targetPath": "/home/vscode/dotfiles",
+				"dotfiles.installCommand": "/home/vscode/dotfiles/install.sh",
+				"aws.telemetry": false
+			},
+			"extensions": [
+				"bmewburn.vscode-intelephense-client",
+				"calebporzio.better-phpunit",
+				"dbaeumer.vscode-eslint",
+				"eamodio.gitlens",
+				"redhat.vscode-yaml",
+				"timonwong.shellcheck",
+				"xdebug.php-debug",
+				"xdebug.php-pack",
+				"GitHub.copilot",
+				"GitHub.copilot-labs",
+				"xdebug.php-debug",
+				"vscodevim.vim",
+				"johnpapa.vscode-peacock"
+			]
+		}
+	},
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/starship:1": {}
+	}
+}

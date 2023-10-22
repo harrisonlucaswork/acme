@@ -85,4 +85,16 @@ class IntegrationTest extends TestCase
         $this->assertSame('16.48', $cart->getDiscountTotal());
         $this->assertSame('98.27', $cart->getTotal());
     }
+
+    public function testBuyTwoYellowGetThirdFree()
+    {
+        $cart = new Cart($this->storage);
+        $cart->add('Y01');
+        $cart->add('Y01');
+        $cart->add('Y01');
+
+        $this->assertSame('0.00', $cart->getShippingTotal());
+        $this->assertSame('99.99', $cart->getDiscountTotal());
+        $this->assertSame('199.98', $cart->getTotal());
+    }
 }
