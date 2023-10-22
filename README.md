@@ -45,6 +45,16 @@ Acme Widget Test
 
 3. The docker-compose isn't necessary here. I left it because I started off by thinking I would add some type of storage ie Redis/MySQL but ended up not getting to it. I also didn't want to tweak the devcontainer json.
 
-4. I am not that happy with how the Rule logic turned out, specifically in the 'isSatisfiedBy' methods. I believe the Storage/Discount rules could likely be combined and push some of the condition logic into their own classes so we can add many more conditions without the switch statement etc.
+4. I am not that happy with how the Rule logic turned out, specifically in the 'isSatisfiedBy' methods. I believe the Storage/Discount rules could likely be combined and push some of the condition logic into their own classes so we can add many more conditions without the switch statement etc. Additionally, the cart's getDiscountTotal and getShippingTotal are basically the same and can be combined.
 
-5. 
+5. I hope we talk through my thought process on things and where I would have liked to go next.
+
+## Todo
+
+1. Apply the Repository pattern for Products, Discounts, and Shipping rules so they can be moved to persistant storage instead of just an array without breaking things.
+
+2. Make the conditions that satisfy a rule easier to add more or change. Probably its own class for each rule type instead of constants in a switch. Could maybe factory them and have the rule simply see if all conditions are met to determine isSatisfiedBy.
+
+3. PHPStan I did not get to it.
+
+4. I wanted to try a simple service container implementation and have the backend be automatically injected but did not have time. I saw this article a while ago and have been wanting to try it in a small project. <https://ryangjchandler.co.uk/posts/build-your-own-service-container-in-php-minimal-container>
